@@ -1,0 +1,58 @@
+
+.glass{
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border:1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    width: 90%;
+    
+}
+body{
+background-image: linear-gradient(to bottom, rgba(13, 13, 13, 0.317), rgba(2, 0, 2, 0.585)), url('/assets/pexels-tobias-bjørkli-1693095.jpg') ;
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-size: cover;
+color: white;
+
+}
+
+table,
+tbody,
+tr,
+th,
+td  {
+    background-color: rgba(0, 0, 0, 0.0) !important;
+    color: rgb(255, 255, 255) !important;
+}
+.container{
+    background-color: rgba(0, 0, 0, 0.0) !important;
+    color: white;
+    justify-content: center;
+}
+.weather {
+    text-align: left;
+    font-weight: bold;
+    padding-left: 5px;
+}
+.form-control::placeholder {
+    color: rgb(255, 255, 255);
+}
+
+.form-control:focus {
+    color: rgb(255, 255, 255);
+    box-shadow: none;
+
+}
+.form-control {
+    color: rgb(255, 255, 255);
+}
+
+a:hover,
+a:visited,
+a:link,
+a:active {
+    text-decoration: none;
+    color: orange;
+}
