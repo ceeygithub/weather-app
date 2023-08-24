@@ -1,5 +1,9 @@
 
 
+// Declare these variables outside the functions so they can be accessed globally
+let celsiusLink = document.querySelector("#toggle-celsius");
+let fahrenheitLink = document.querySelector("#toggle-fahrenheit");
+let temp; // Declare this variable to store the temperature globally
 
 function newPosition(position) {
     // Get latitude and longitude from the geolocation
@@ -14,7 +18,7 @@ function newPosition(position) {
 
     axios.get(apiUrl).then((response) => {
         let city = response.data.name;
-        let temp = response.data.main.temp;
+        temp = response.data.main.temp;
         let humidity = response.data.main.humidity;
         let visibility = response.data.visibility / 1000;
         let wind = response.data.wind.speed;
@@ -49,7 +53,7 @@ function newPosition(position) {
         cityElement.textContent = `Current location  ${city}`;
 
         let temperatureElement = document.querySelector("#temperature");
-        temperatureElement.innerHTML = `<h1>${Math.round(temp)}℃</h1>`;
+        temperatureElement.innerHTML = `<h1>${Math.round(temp)}</h1>`;
 
         let humidityElement = document.querySelector("#humidity")
         humidityElement.textContent = `${humidity}%`;
@@ -60,8 +64,13 @@ function newPosition(position) {
         let windElement = document.querySelector("#wind")
         windElement.textContent = `${wind} km/h`;
 
+
+        // Add event listeners for temperature unit conversion
+        fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
+        celsiusLink.addEventListener("click", displayCelsiusTemperature);
     });
 }
+
 function handleFormSubmit(event) {
     event.preventDefault();
 
@@ -73,7 +82,7 @@ function handleFormSubmit(event) {
 
     axios.get(apiUrl).then((response) => {
         let city = response.data.name;
-        let temp = response.data.main.temp;
+        temp = response.data.main.temp;
         let humidity = response.data.main.humidity;
         let visibility = response.data.visibility / 1000;
         let wind = response.data.wind.speed;
@@ -110,7 +119,7 @@ function handleFormSubmit(event) {
         cityElement.textContent = city;
 
         let temperatureElement = document.querySelector("#temperature");
-        temperatureElement.innerHTML = `<h1>${Math.round(temp)}℃</h1>`;
+        temperatureElement.innerHTML = `<h1>${Math.round(temp)}</h1>`;
 
         let humidityElement = document.querySelector("#humidity")
         humidityElement.textContent = `${humidity}%`;
@@ -121,14 +130,12 @@ function handleFormSubmit(event) {
         let windElement = document.querySelector("#wind")
         windElement.textContent = `${wind} km/h`;
 
+
+        // Add event listeners for temperature unit conversion
+        fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
+        celsiusLink.addEventListener("click", displayCelsiusTemperature);
     });
-};
-
-let searchForm = document.querySelector("#search-form");
-searchForm.addEventListener("submit", handleFormSubmit);
-
-navigator.geolocation.getCurrentPosition(newPosition);
-
+}
 
 // Function to calculate dew point
 function calculateDewPoint(temperature, humidity) {
@@ -140,4 +147,36 @@ function calculateDewPoint(temperature, humidity) {
     return dewPoint;
 };
 
+function displayFahrenheitTemperature(event) {
+    event.preventDefault();
+    let temperatureElement = document.querySelector("#temperature");
 
+    // Calculate and display Fahrenheit temperature
+    let fahrenheitTemperature = (temp * 9) / 5 + 32;
+    temperatureElement.innerHTML = `<h1>${Math.round(fahrenheitTemperature)}</h1>`;
+
+    // Update class to show active state for Fahrenheit link
+    celsiusLink.classList.remove("active");
+    fahrenheitLink.classList.add("active");
+}
+
+function displayCelsiusTemperature(event) {
+    event.preventDefault();
+    let temperatureElement = document.querySelector("#temperature");
+
+    // Display Celsius temperature
+    temperatureElement.innerHTML = `<h1>${Math.round(temp)}</h1>`;
+
+    // Update class to show active state for Celsius link
+    celsiusLink.classList.add("active");
+    fahrenheitLink.classList.remove("active");
+}
+fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
+celsiusLink.addEventListener("click", displayCelsiusTemperature);
+
+// Initial call to get the user's geolocation
+navigator.geolocation.getCurrentPosition(newPosition);
+
+// Add event listener for form submission
+let searchForm = document.querySelector("#search-form");
+searchForm.addEventListener("submit", handleFormSubmit);

@@ -49,10 +49,15 @@ td  {
     color: rgb(255, 255, 255);
 }
 
-a:hover,
-a:visited,
-a:link,
-a:active {
+a:link {
     text-decoration: none;
-    color: orange;
+    cursor: default;
+    color: rgb(3, 0, 176);
 }
+.active:visited,.active:link,.active:hover
+ {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    cursor: default;
+}
+
