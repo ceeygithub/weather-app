@@ -33,14 +33,18 @@
                     </button>
                     <div class="collapse navbar-collapse " id="navbarNavDropdown">
                         <ul class="navbar-nav ms-auto pe-5 justify-content-flex-start ">
-                            <li class="nav-item">
-                                <i class="fa-regular fa-clock"></i>
-                                <span>Hourly</span>
-                            </li>
-                            <li class="nav-item ms-5">
-                                <i class="fa-regular fa-calendar-days"></i>
-                                <span>Daily</span>
-                            </li>
+                            <a class="hourly-btn" href="#forecast">
+                                <li class="nav-item">
+                                    <i class="fa-regular fa-clock"></i>
+                                    <span>Hourly</span>
+                                </li>
+                            </a>
+                            <a class="daily-btn" href="#table">
+                                <li class="nav-item ms-5">
+                                    <i class="fa-regular fa-calendar-days"></i>
+                                    <span>Daily</span>
+                                </li>
+                            </a>
                         </ul>
                         <div class="menus d-flex ms-5 ps-5">
                             <i class="fa-solid fa-rotate-right"></i>
@@ -117,13 +121,13 @@
                 </div>
             </div>
             <!--first section ends here-->
-            <div class="container text-center  mt-5 mb-5  border-2 border-top border-white  ">
+            <div class="container text-center  mt-5 mb-5  border-2 border-top border-white  " id="forecast">
                 <p class="weather">Today's Weather</p>
                 <div class="row m-0 p-0 grid gap-2  ">
                     <div class="col border light-subtle  rounded shadow-sm ">
-                        <p>4 AM</p>
-                        <i class="fa-solid fa-cloud"></i>
-                        <p>25&deg;</p>
+                        <p id="hour">4 AM</p>
+                        <i class="fa-solid fa-cloud" id="hour-icon"></i>
+                        <p id="hour-temp">25&deg;</p>
                     </div>
                     <div class="col border light-subtle rounded shadow-sm">
                         <p>5 AM</p>
@@ -163,7 +167,7 @@
                 </div>
             </div>
             <!--second section ends here-->
-            <table class="table  ">
+            <table class="table  " id="table">
                 <!--  <thead>
                      <tr>
                                     <th colspan="6">Next five days</th>

@@ -5,10 +5,12 @@ let celsiusLink = document.querySelector("#toggle-celsius");
 let fahrenheitLink = document.querySelector("#toggle-fahrenheit");
 let temp; // Declare this variable to store the temperature globally
 
+
 function newPosition(position) {
     // Get latitude and longitude from the geolocation
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
+
 
     // API key for accessing OpenWeatherMap API
     let apiKey = "597c40c39084687093b091cd48b366f8";
@@ -24,7 +26,6 @@ function newPosition(position) {
         let wind = response.data.wind.speed;
         let weather = response.data.weather[0].description;
         let icon = response.data.weather[0].icon;
-
         let timestamp = response.data.dt; // Unix timestamp
         let timezoneOffset = response.data.timezone; // Timezone offset in seconds
 
@@ -68,7 +69,12 @@ function newPosition(position) {
         // Add event listeners for temperature unit conversion
         fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
         celsiusLink.addEventListener("click", displayCelsiusTemperature);
+
+        getForecast(response.data.coord)
+        hourlyForecast(response.data.coord)
     });
+
+
 }
 
 function handleFormSubmit(event) {
@@ -180,3 +186,98 @@ navigator.geolocation.getCurrentPosition(newPosition);
 // Add event listener for form submission
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", handleFormSubmit);
+
+
+function getForecast(coordinates) {
+    let apiKey = "597c40c39084687093b091cd48b366f8";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(displayForecast);
+}
+function hourlyForecast(coordinates) {
+    let apiKey = "597c40c39084687093b091cd48b366f8";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(displayHourlyForecast);
+}
+
+// Function to get hourly forecast
+function displayHourlyForecast(response) {
+    let forecastElement = document.querySelector("#forecast");
+
+    // Access the hourly forecast data
+    let hourlyForecasts = response.data.hourly.slice(0, 8); // Get the first 8 hourly forecasts
+    let forecastHTML = `
+       
+            <p class="weather">Today's Weather</p>
+            <div class="row m-0 p-0 grid gap-2">
+    `;
+
+    hourlyForecasts.forEach(function (hourly, index) {
+        let time = new Date(hourly.dt * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        let temp = hourly.temp;
+        let icon = hourly.weather[0].icon;
+        forecastHTML += `
+            <div class="col border light-subtle rounded shadow-sm">
+                <p id="hour">${time}</p>
+                <img src="https://openweathermap.org/img/wn/${icon}.png" alt="Weather Icon">
+                <p id="hour-temp">${temp.toFixed(0)}&deg;</p>
+            </div>
+        `;
+    });
+
+    forecastHTML += `
+            </div>
+       
+    `;
+
+    forecastElement.innerHTML = forecastHTML;
+}
+
+//let hourlyClick = document.querySelector(".hourly-btn");
+//hourlyClick.addEventListener("click", displayHourlyForecast);
+
+// Function to display daily forecast
+function displayForecast(position) {
+    let forecastElement = document.querySelector(".table");
+    let days = ["Thu", "Fri", "Sat", "Sun", "Mon"];
+    let dailyForecasts = position.data.daily;
+    console.log(dailyForecasts);
+
+    let forecastHTML = `
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="6">Next five days</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+    `;
+
+    days.forEach(function (dayName, index) {
+        let day = dailyForecasts[index];
+        let lowTemp = day.temp.min;
+        let highTemp = day.temp.max;
+        let windSpeed = day.wind_speed;
+        let rain = day.rain ? day.rain : 0;
+        let icon = day.weather[0].icon;
+        let date = new Date(day.dt * 1000); // Convert Unix timestamp to Date
+        let formattedDate = `${date.getDate()}/${date.getMonth() + 1}`; // Get day and month
+
+        forecastHTML += `
+            <tr>
+                <th scope="row">${dayName}<br>${formattedDate}</th>
+               <td><img src=" https://openweathermap.org/img/wn/${icon}.png" alt="Weather Icon"></td>
+                <td>${lowTemp.toFixed(0)}°C<br>Low</td>
+                <td>${highTemp.toFixed(0)}°C<br>High</td>
+                <td>${windSpeed.toFixed(0)} m/s<br>Wind</td>
+                <td>${rain}%<br>Rain</td>
+            </tr>
+        `;
+    });
+
+    forecastHTML += `
+            </tbody>
+        </table>
+    `;
+
+    forecastElement.innerHTML = forecastHTML;
+}
