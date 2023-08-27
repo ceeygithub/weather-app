@@ -243,7 +243,7 @@ function displayForecast(position) {
 
     let forecastHTML = `
        <table class="table caption-top table-responsive  " id="table">
-          <caption class=" fw-bolder text-reset">Next five days</caption>
+          <caption class=" fw-bolder text-reset ms-3">Next five days</caption>
            
             <tbody class="table-group-divider">
     `;
