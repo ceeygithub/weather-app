@@ -4,6 +4,8 @@
 let celsiusLink = document.querySelector("#toggle-celsius");
 let fahrenheitLink = document.querySelector("#toggle-fahrenheit");
 let temp; // Declare this variable to store the temperature globally
+let dailyLink = document.querySelector("#forecast"); // Add this line
+let hourlyLink = document.querySelector(".table"); // Add this line
 
 
 function newPosition(position) {
@@ -136,6 +138,9 @@ function handleFormSubmit(event) {
         let windElement = document.querySelector("#wind")
         windElement.textContent = `${wind} km/h`;
 
+        dailyLink.addEventListener("click", displayForecast);
+        hourlyLink.addEventListener("click", displayHourlyForecast);
+
 
         // Add event listeners for temperature unit conversion
         fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
@@ -240,7 +245,7 @@ function displayForecast(position) {
     let forecastElement = document.querySelector(".table");
     let days = ["Thu", "Fri", "Sat", "Sun", "Mon"];
     let dailyForecasts = position.data.daily;
-    console.log(dailyForecasts);
+
 
     let forecastHTML = `
         <table class="table">
@@ -281,3 +286,5 @@ function displayForecast(position) {
 
     forecastElement.innerHTML = forecastHTML;
 }
+//dailyLink.addEventListener("click", displayForecast);
+//hourlyLink.addEventListener("click", displayHourlyForecast);
