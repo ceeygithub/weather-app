@@ -4,8 +4,6 @@
 let celsiusLink = document.querySelector("#toggle-celsius");
 let fahrenheitLink = document.querySelector("#toggle-fahrenheit");
 let temp; // Declare this variable to store the temperature globally
-let dailyLink = document.querySelector("#forecast"); // Add this line
-let hourlyLink = document.querySelector(".table"); // Add this line
 
 
 function newPosition(position) {
@@ -75,8 +73,6 @@ function newPosition(position) {
         getForecast(response.data.coord)
         hourlyForecast(response.data.coord)
     });
-
-
 }
 
 function handleFormSubmit(event) {
@@ -211,7 +207,7 @@ function displayHourlyForecast(response) {
     // Access the hourly forecast data
     let hourlyForecasts = response.data.hourly.slice(0, 8); // Get the first 8 hourly forecasts
     let forecastHTML = `
-       
+            
             <p class="weather">Today's Weather</p>
             <div class="row m-0 p-0 grid gap-2">
     `;
@@ -237,8 +233,7 @@ function displayHourlyForecast(response) {
     forecastElement.innerHTML = forecastHTML;
 }
 
-//let hourlyClick = document.querySelector(".hourly-btn");
-//hourlyClick.addEventListener("click", displayHourlyForecast);
+
 
 // Function to display daily forecast
 function displayForecast(position) {
@@ -246,14 +241,10 @@ function displayForecast(position) {
     let days = ["Thu", "Fri", "Sat", "Sun", "Mon"];
     let dailyForecasts = position.data.daily;
 
-
     let forecastHTML = `
-        <table class="table">
-            <thead>
-                <tr>
-                    <th colspan="6">Next five days</th>
-                </tr>
-            </thead>
+       <table class="table caption-top table-responsive  " id="table">
+          <caption class=" fw-bolder text-reset">Next five days</caption>
+           
             <tbody class="table-group-divider">
     `;
 
@@ -278,7 +269,6 @@ function displayForecast(position) {
             </tr>
         `;
     });
-
     forecastHTML += `
             </tbody>
         </table>
@@ -286,5 +276,3 @@ function displayForecast(position) {
 
     forecastElement.innerHTML = forecastHTML;
 }
-//dailyLink.addEventListener("click", displayForecast);
-//hourlyLink.addEventListener("click", displayHourlyForecast);
